@@ -1,0 +1,41 @@
+[
+  {
+    "course_id": "DS2002",
+    "section": "001",
+    "title": "Data Science Systems",
+    "level": 200,
+    "instructors": [
+      {
+        "name": "Austin Rivera",
+        "role": "Primary"
+      },
+      {
+        "name": "Heywood Williams-Tracy",
+        "role": "TA"
+      }
+    ]
+  },
+  {
+    "course_id": "DS2003",
+    "section": "002",
+    "title": "Data Science: Data Visualization",
+    "level": 200,
+    "instructors": [
+      {
+        "name": "Antonios Mamalakis",
+        "role": "Primary"
+      }
+    ]
+  },
+  {
+    "course_id": "CS3710",
+    "title": "Introduction to Cybersecurity",
+    "level": 300,
+    "instructors": [
+      {
+        "name": "Angela Orebaugh",
+        "role": "Primary"
+      }
+    ]
+  }
+]
