@@ -1,0 +1,102 @@
+===== MAKE Test =====
+--- Running Test Pipeline (Built-in Test Modes) ---
+# 1. Run the update script (triggers test() function by default)
+[Runner] Starting update_portfolio.py in Test Mode...
+[ETL] Success: wrote test_card_portfolio.csv (3 rows)
+# 2. Run the summary script (triggers test() function by default)
+[Runner] Starting generate_summary.py in Test Mode...
+=== Portfolio Summary ===
+Total Portfolio Value (sum of card_market_value): $321.40
+--- Most Valuable Card ---
+Name:  Charizard
+ID:    base0-4
+Value: $250.75
+Test complete.
+===== MAKE Add_Set (base1) =====
+--- Adding New Card Set ---
+Enter TCG Card Set ID (e.g., base1, base4): Fetching card data for set: base1 ...
+curl: (22) The requested URL returned error: 404
+make: *** [Makefile:14: Add_Set] Error 22
+===== MAKE all =====
+--- Starting Portfolio Build Workflow ---
+Do you want to add a NEW card set? (yes/no)
+Do you want to refresh ALL existing card sets? (yes/no)
+make[1]: Entering directory '/workspaces/DS-2002-F25/Labs/Lab_04/pokemon_lab'
+--- Refreshing All Card Sets ---
+Refreshing all card sets in card_set_lookup/ ...
+Updating set: base1 ...
+Updated data written to: card_set_lookup/base1.json
+Updating set: base4 ...
+Updated data written to: card_set_lookup/base4.json
+All card sets have been refreshed.
+make[1]: Leaving directory '/workspaces/DS-2002-F25/Labs/Lab_04/pokemon_lab'
+[Pipeline] Starting production pipeline...
+[Pipeline] Step 1/2: Updating portfolio (ETL)...
+Traceback (most recent call last):
+  File "/home/codespace/.local/lib/python3.12/site-packages/pandas/core/indexes/base.py", line 3812, in get_loc
+    return self._engine.get_loc(casted_key)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "pandas/_libs/index.pyx", line 167, in pandas._libs.index.IndexEngine.get_loc
+  File "pandas/_libs/index.pyx", line 196, in pandas._libs.index.IndexEngine.get_loc
+  File "pandas/_libs/hashtable_class_helper.pxi", line 7088, in pandas._libs.hashtable.PyObjectHashTable.get_item
+  File "pandas/_libs/hashtable_class_helper.pxi", line 7096, in pandas._libs.hashtable.PyObjectHashTable.get_item
+KeyError: 'card_name'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/workspaces/DS-2002-F25/Labs/Lab_04/pokemon_lab/./pipeline.py", line 29, in <module>
+    run_production_pipeline()
+  File "/workspaces/DS-2002-F25/Labs/Lab_04/pokemon_lab/./pipeline.py", line 20, in run_production_pipeline
+    update_portfolio.main()  # writes card_portfolio.csv
+    ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspaces/DS-2002-F25/Labs/Lab_04/pokemon_lab/update_portfolio.py", line 273, in main
+    update_portfolio(
+  File "/workspaces/DS-2002-F25/Labs/Lab_04/pokemon_lab/update_portfolio.py", line 242, in update_portfolio
+    merged[backup_col] = merged[backup_col].fillna(inventory_df[backup_col].astype(str))
+                         ~~~~~~^^^^^^^^^^^^
+  File "/home/codespace/.local/lib/python3.12/site-packages/pandas/core/frame.py", line 4107, in __getitem__
+    indexer = self.columns.get_loc(key)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/codespace/.local/lib/python3.12/site-packages/pandas/core/indexes/base.py", line 3819, in get_loc
+    raise KeyError(key) from err
+KeyError: 'card_name'
+make: *** [Makefile:30: Portfolio_Build] Error 1
+===== MAKE all (after patch) =====
+--- Starting Portfolio Build Workflow ---
+Do you want to add a NEW card set? (yes/no)
+Do you want to refresh ALL existing card sets? (yes/no)
+make[1]: Entering directory '/workspaces/DS-2002-F25/Labs/Lab_04/pokemon_lab'
+--- Refreshing All Card Sets ---
+Refreshing all card sets in card_set_lookup/ ...
+Updating set: base1 ...
+Updated data written to: card_set_lookup/base1.json
+Updating set: base4 ...
+curl: (22) The requested URL returned error: 504
+make[1]: *** [Makefile:18: Refresh_Sets] Error 22
+make[1]: Leaving directory '/workspaces/DS-2002-F25/Labs/Lab_04/pokemon_lab'
+make: *** [Makefile:28: Portfolio_Build] Error 2
+===== MAKE all (after refresh fix) =====
+--- Starting Portfolio Build Workflow ---
+Do you want to add a NEW card set? (yes/no)
+Do you want to refresh ALL existing card sets? (yes/no)
+make[1]: Entering directory '/workspaces/DS-2002-F25/Labs/Lab_04/pokemon_lab'
+--- Refreshing All Card Sets ---
+Refreshing all card sets in card_set_lookup/ ...
+Updating set: base1 ...
+Updated data written to: card_set_lookup/base1.json
+Updating set: base4 ...
+Updated data written to: card_set_lookup/base4.json
+All card sets have been refreshed.
+make[1]: Leaving directory '/workspaces/DS-2002-F25/Labs/Lab_04/pokemon_lab'
+[Pipeline] Starting production pipeline...
+[Pipeline] Step 1/2: Updating portfolio (ETL)...
+[Pipeline] Step 2/2: Generating summary report...
+[Pipeline] Pipeline completed successfully.
+[ETL] Success: wrote card_portfolio.csv (360 rows)
+=== Portfolio Summary ===
+Total Portfolio Value (sum of card_market_value): $5,679.13
+--- Most Valuable Card ---
+Name:  Charizard
+ID:    base1-4
+Value: $458.29
