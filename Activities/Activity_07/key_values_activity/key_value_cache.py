@@ -33,21 +33,16 @@ print("\n--- Retrieval Results ---")
 print(f"Retrieved data for {key_to_find}: {data['username']}")
 print(f"Time taken for retrieval: {((end_time - start_time) * 1000):.6f} milliseconds")
 
-# Now, imagine if we had to search through all the values:
-# This is what relational DBs sometimes have to do (a full table scan)
 slow_start = time.perf_counter()
 found_slow = next((v for k, v in session_cache.items() if v['username'] == 'nosql_fan'), None)
 slow_end = time.perf_counter()
 
 print(f"\nTime taken for SLOW search: {((slow_end - slow_start) * 1000):.6f} milliseconds")
 new_activity = USER_A_DATA['recent_activity']
-new_activity.append("submitted_lab_4")  # New activity
+new_activity.append("submitted_lab_4")
 
 # Overwrite the old value with the new value
 session_cache['user_session:9001']['recent_activity'] = new_activity
 
 print("\n--- Updated Data ---")
 print(session_cache['user_session:9001']['recent_activity'])
-
-# Note: The database doesn't care about the structure of the value,
-# it just overwrites the entire stored object associated with the key.
